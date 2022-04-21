@@ -5,6 +5,7 @@ package mio.contatore;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.ListIterator;
 
 import javax.servlet.RequestDispatcher;
@@ -39,20 +40,17 @@ public class contatore extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		//RESET
 		String param =request.getParameter("andonio");
+		
+		//Riga tabella
 		String param2 =request.getParameter("gianni");
+		
+		//Cancella il singolo elemnento
 		String param3 =request.getParameter("cancellino");
 		
-		if(!saltaAggiunta)
-		{
-			count ++ ;
-			id++;
-			Date date = new Date();
-			visitatore v = new visitatore(id,request.getRemoteAddr(), request.getRemotePort(), date.toString());
-			list.add(v);
-		}
-		else
-			saltaAggiunta=false;
+		
 		
 		if(param!=null)
 		{
@@ -74,6 +72,17 @@ public class contatore extends HttpServlet {
 		}
 		else if(param ==null && param2==null)
 		{
+			if(!saltaAggiunta)
+			{
+				count ++ ;
+				id++;
+				Date date = new Date();
+				visitatore v = new visitatore(id,request.getRemoteAddr(), request.getRemotePort(), date.toString());
+				list.add(v);
+			}
+			else
+				saltaAggiunta=false;
+			
 			request.setAttribute("count",count);
 			request.setAttribute("list",list);
 			RequestDispatcher disp = request.getRequestDispatcher("/WEB-INF/ContaView.jsp");
